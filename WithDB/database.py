@@ -1,7 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship, Session
-from typing import List
-
 Base = declarative_base()
 
 class Employees(Base):
@@ -13,7 +11,7 @@ class Employees(Base):
     birthDate = Column(Date)
     baseSalary = Column(Integer)
     hireDate = Column(Date)
-    team_id = Column(Integer, ForeignKey("teams.teamId"))
+    team_id = Column(Integer, ForeignKey("teams.teamId"), nullable=True)
     team = relationship("Teams", back_populates="members")
 
 class Teams(Base):
@@ -42,7 +40,7 @@ class DB:
 
     def connect_database(self):
         self.engine = create_engine(f"sqlite:///{self.DB_NAME}", echo=True)
-        self.metadata = Base.metadata  # Associate metadata with the engine
+        self.metadata = Base.metadata
         self.metadata.bind = self.engine
         self.connection = self.engine.connect()
 
