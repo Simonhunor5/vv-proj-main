@@ -1,7 +1,6 @@
 import datetime
-from employee import Employee
+from database import Employees  # Ensure you're importing the correct class
 from relations_manager import RelationsManager
-
 
 class EmployeeManager:
     yearly_bonus = 100
@@ -10,33 +9,31 @@ class EmployeeManager:
     def __init__(self, relations_manager: RelationsManager):
         self.relations_manager = relations_manager
 
-    def calculate_salary(self, employee: Employee) -> int:
-        salary = employee.base_salary
+    def calculate_salary(self, employee: Employees) -> int:
+        # Access the correct attribute names, according to your SQLAlchemy Employees model
+        salary = employee.baseSalary
 
-        years_at_company = datetime.date.today().year - employee.hire_date.year
+        # Calculate years at company using the correct attribute names
+        years_at_company = datetime.date.today().year - employee.hireDate.year
 
         salary += years_at_company * EmployeeManager.yearly_bonus
 
+        # Check if the employee is a leader using the corrected RelationsManager method
         if self.relations_manager.is_leader(employee):
+            # Get the list of team member IDs and calculate the leader bonus
             team_members_count = len(self.relations_manager.get_team_members(employee))
             salary += team_members_count * EmployeeManager.leader_bonus_per_member
 
         return salary
 
-    def calculate_salary_and_send_email(self, employee: Employee) -> str:
+    def calculate_salary_and_send_email(self, employee: Employees) -> str:
         salary = self.calculate_salary(employee)
-        message = f"{employee.first_name} {employee.last_name} your salary: {salary} has been transferred to you."
+        # Formulate the message using the correct attribute names
+        message = f"{employee.firstName} {employee.lastName}, your salary: {salary} has been transferred to you."
+        # In a real scenario, you would integrate with an email service to send this message
         return message
 
-
-
-if __name__ == '__main__':
-    rm = RelationsManager()
-    print(f"All team members: {rm.get_all_employees()}")
-
-    e1 = Employee(id=1, first_name="John", last_name="Doe", base_salary=3000,
-                  birth_date=datetime.date(1970, 1, 31), hire_date=datetime.date(1990, 10, 1))
-    print(f"Team members for e1: {rm.get_team_members(e1)}")
-
-    em = EmployeeManager(rm)
-    em.calculate_salary_and_send_email(e1)
+# The __main__ block here would be used for manual testing, which you're now handling with unittest
+# So you can comment it out or remove it.
+# if __name__ == '__main__':
+#     ...
