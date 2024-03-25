@@ -1,4 +1,4 @@
-name: CI/CD
+name: Python DB Test
 
 on:
   push:
@@ -10,12 +10,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      sqlite:
-        image: nouchka/sqlite3
-        ports:
-          - 3306:3306
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -26,9 +20,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install sqlalchemy # Add all necessary dependencies for your tests
-        # Add any other setup you need here
+        pip install -r requirements.txt # Assuming you have a requirements.txt at the root
 
-    - name: Run Tests
+    - name: Initialize Database
       run: |
-        python -m unittest discover -s . -p '*_test.py' # This will discover and run all tests
+        # If you have a script to initialize the database, run it here
+        python WithDB/init_database.py
+
+    - name: Run db_test.py
+      run: |
+        python -m unittest WithDB/db_test.py
