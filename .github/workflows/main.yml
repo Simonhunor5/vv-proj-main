@@ -31,7 +31,9 @@ jobs:
       run: pwd
     
     - name: List files in the expected database directory
-      run: ls -la path/to/expected/database/directory
+      run: |
+        cdWithDB
+        ls
 
     - name: Run db_test.py
       run: |
