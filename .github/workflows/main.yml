@@ -32,7 +32,7 @@ jobs:
     
     - name: List files in the expected database directory
       run: |
-        cdWithDB
+        cd WithDB
         ls
 
     - name: Run db_test.py
