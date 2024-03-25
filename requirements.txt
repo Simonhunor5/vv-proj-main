@@ -1,2 +1,11 @@
 pytest
 sqlalchemy
+pytest-sqlalchemy
+alembic
+python-dotenv
+coverage
+Faker
+email-validator
+passlib
+flask
+requests
