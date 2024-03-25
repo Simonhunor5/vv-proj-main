@@ -22,6 +22,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt # Assuming you have a requirements.txt at the root
 
+    - name: Change to root directory
+      run: |
+        cd WithDB
+
     - name: Run db_test.py
       run: |
-        python -m unittest WithDB/db_test.py
+        python -m unittest db_test.py
