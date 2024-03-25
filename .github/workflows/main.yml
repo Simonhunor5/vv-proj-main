@@ -22,11 +22,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt # Assuming you have a requirements.txt at the root
 
-    - name: Initialize Database
-      run: |
-        # If you have a script to initialize the database, run it here
-        python WithDB/init_database.py
-
     - name: Run db_test.py
       run: |
         python -m unittest WithDB/db_test.py
