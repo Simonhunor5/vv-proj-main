@@ -12,20 +12,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8 # Use the version of Python you need
+        python-version: 3.8
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt # Assuming you have a requirements.txt at the root
-
-    - name: Change to root directory
-      run: |
-        cd WithDB
+        pip install -r requirements.txt
 
     - name: Run db_test.py
       run: |
-        python -m unittest db_test.py
+        cd WithDB
+        python -m unittest db_test
