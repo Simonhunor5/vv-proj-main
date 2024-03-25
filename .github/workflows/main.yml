@@ -27,6 +27,12 @@ jobs:
       run: |
         python WithDB/init_database.py
 
+    - name: Print working directory
+      run: pwd
+    
+    - name: List files in the expected database directory
+      run: ls -la path/to/expected/database/directory
+
     - name: Run db_test.py
       run: |
         cd WithDB
