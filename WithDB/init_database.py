@@ -1,4 +1,3 @@
-import datetime
 from sqlalchemy.orm import Session
 from database import DB, Employees, Teams
 from relations_manager import RelationsManager
@@ -9,26 +8,29 @@ def main():
     db.init_database()
 
     with Session(db.engine) as session:
-        manager = RelationsManager()
+        manager = RelationsManager(session)
 
-        for employee_data in manager.employee_list:
-            employee = Employees(
-                employeeId=employee_data.id,
-                firstName=employee_data.first_name,
-                lastName=employee_data.last_name,
-                birthDate=employee_data.birth_date,
-                baseSalary=employee_data.base_salary,
-                hireDate=employee_data.hire_date,
+
+        employee_data_list = session.query(Employees).all()
+
+        for employee_data in employee_data_list:
+
+            is_leader = manager.is_leader(employee_data)
+            team_members = manager.get_team_members(employee_data) if is_leader else []
+
+            new_employee = Employees(
+                employeeId=employee_data.employeeId,
+                firstName=employee_data.firstName,
+                lastName=employee_data.lastName,
+                birthDate=employee_data.birthDate,
+                baseSalary=employee_data.baseSalary,
+                hireDate=employee_data.hireDate,
             )
-            session.add(employee)
-
-        for team_id, member_ids in manager.teams.items():
-            team = Teams(leaderId=team_id, members=[])
-            for member_id in member_ids:
-                employee = session.query(Employees).get(member_id)
-                team.members.append(employee)
-
-            session.add(team)
+            session.add(new_employee)
+            
+            if is_leader:
+                team = Teams(leaderId=employee_data.employeeId, members=team_members)
+                session.add(team)
 
         session.commit()
 
