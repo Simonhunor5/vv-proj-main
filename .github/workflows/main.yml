@@ -38,7 +38,7 @@ jobs:
     - name: Adjust permissions for the database file
       run: |
         cd WithDB
-        chmod 644 employees.db
+        chmod 666 employees.db
         
     - name: Run employee_test.py
       run: |
