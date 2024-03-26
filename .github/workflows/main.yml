@@ -23,9 +23,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Initialize Database
-      run: |
-        python WithDB/init_database.py
+    
 
     - name: Print working directory
       run: pwd
