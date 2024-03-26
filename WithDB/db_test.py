@@ -11,7 +11,15 @@ class TestEmployeeRelationsManager(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.engine = create_engine('sqlite:///WithDB/employees.db')
+        # Relative path
+        # cls.engine = create_engine('sqlite:///WithDB/employees.db')
+
+        # Construct the absolute path to the database file
+        db_file = os.path.join(os.environ['GITHUB_WORKSPACE'], 'WithDB', 'employees.db')
+        
+        # Create the SQLAlchemy engine with the absolute path
+        cls.engine = create_engine('sqlite:///' + db_file)
+
         Session = sessionmaker(bind=cls.engine)
         cls.session = Session()
 
