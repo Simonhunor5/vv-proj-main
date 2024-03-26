@@ -39,6 +39,11 @@ jobs:
       run: |
         cd WithDB
         chmod 644 employees.db
+        
+    - name: Run employee_test.py
+      run: |
+        cd WithoutDB
+        python -m unittest employee_test
 
     - name: Run db_test.py
       run: |
