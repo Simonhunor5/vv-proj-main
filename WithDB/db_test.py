@@ -17,6 +17,12 @@ class TestEmployeeRelationsManager(unittest.TestCase):
 
         # Construct the absolute path to the database file
         db_file = os.path.join(os.environ['GITHUB_WORKSPACE'], 'WithDB', 'employees.db')
+
+        # Check if the database file exists
+        if os.path.exists(db_file):
+            print(f"Database File {db_file} exists.")
+        else:
+            print(f"Database File {db_file} not exist.")
         
         # Create the SQLAlchemy engine with the absolute path
         cls.engine = create_engine('sqlite:///' + db_file)
